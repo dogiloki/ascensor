@@ -1,0 +1,81 @@
+*{
+	padding: 0px;
+	margin: 0px;
+	font-family: arial;
+	box-sizing: border-box;
+}
+.content-ascensor{
+	width: 15vw;
+	height: 40vh;
+	top: 0px;
+	right: 0px;
+	position: fixed;
+	border: 3px solid #c2c2c2;
+	background: #ade9ff;
+}
+.content-ascensor .numero{
+	width: 11vw;
+	height: 5vh;
+	position: absolute;
+	left: 2vw;
+	top: 4vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #80dcff;
+	color: #000000;
+	border: 3px solid #c2c2c2;
+	border-radius: 5px;
+}
+.content-ascensor .marco{
+	width: 11vw;
+	height: 27.2vh;
+	position: absolute;
+	left: 2vw;
+	top: 12vh;
+	display: flex;
+	justify-content: center;
+	background: #7d8d93;
+	cursor: pointer;
+	z-index: -10;
+}
+.content-ascensor .puerta{
+	width: 5.5vw;
+	height: 27.5vh;
+	position: absolute;
+	border-top: 3px solid #c2c2c2;
+	border-bottom: 3px solid #c2c2c2;
+	background: -webkit-linear-gradient(left,#b2e6fa,#9adff9,#b2e6fa);
+	z-index: -10;
+}
+.content-ascensor .puerta1{
+	top: 0px;
+	left: 0px;
+	border-left: 3px solid #c2c2c2;
+}
+.content-ascensor .puerta2{
+	top: 0px;
+	right: 0px;
+	border-right: 3px solid #c2c2c2;
+}
+.content-ascensor .centro{
+	width: 5px;
+	height: 27.5vh;
+	background: -webkit-linear-gradient(left,#666666,#ade9ff,#666666);
+	z-index: 10;
+}
+
+.content-plantas{
+	width: 85vw;
+	height: 100vh;
+	overflow: hidden;
+	position: relative;
+}
+.planta{
+	width: 100%;
+	height: calc(40vh + 10px);
+	position: absolute;
+	background: none;
+	border: 1px solid #c2c2c2;
+	background: #354139;
+}
