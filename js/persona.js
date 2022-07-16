@@ -18,6 +18,7 @@ class Persona{
 			// Agregar persona a la planta 1
 			ascensor.planta.personas.push(persona);
 			ascensor.planta.obj.appendChild(persona.obj);
+			document.getElementById('total').innerHTML=Juego.plantas[Juego.plantas.length-1].obj.childElementCount;
 			persona.obj.style.width=(((40*.80)/3)*2)+"vh";
 			persona.obj.style.height=(40*.80)+"vh";
 			persona.obj.style.left="";
