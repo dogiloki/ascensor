@@ -1,10 +1,22 @@
-var ascensor=new Ascensor();
 var juego=new Juego();
-ascensor.obtenerPlanta();
+var audio=document.getElementById("audio");
+audio.src=Diccionario.audio.musica;
+audio.loop=true;
+audio.volume=0.5;
+document.body.style.backgroundImage="url("+Diccionario.img.fondo+")";
+
+juego.iniciar();
+
 window.onresize=()=>{
 	juego.posicionarPlantas();
 }
 
 document.addEventListener("keydown",(evt)=>{
-	this.ascensor.mover(evt);
+	this.audio.play();
+	this.juego.ascensor.mover(evt);
+	this.juego.ascensor.obtenerPlanta();
 });
+
+function jugar(){
+	this.audio.play();
+}

@@ -1,86 +1,93 @@
 class Ascensor{
 
 	constructor(){
-		this.peso=3;
-		this.personas=[];
+		this.peso=5;
 		this.planta;
+		this.personas=[];
 		this.abierto=false;
 		this.movimiento=false;
 		this.content_ascensor=document.getElementById("content-ascensor");
 		this.content_numero=document.getElementById("ascensor-numero");
+		this.content_peso=document.getElementById("ascensor-peso");
 		this.content_puerta=document.getElementById("ascensor-puerta");
 		this.content_puerta1=document.getElementById("ascensor-puerta1");
 		this.content_puerta2=document.getElementById("ascensor-puerta2");
 		this.content_centro=document.getElementById("ascensor-centro");
+		this.ancho_puerta1=this.content_puerta1.offsetWidth;
+		this.ancho_puerta2=this.content_puerta2.offsetWidth;
 		this.intervalo={
 			abrir:null,cerrar:null,mover:null
 		}
 		this.content_puerta.addEventListener("click",()=>{
-			if(!this.movimiento){
-				this.abierto?this.cerrar():this.abrir();
-			}
+			this.abierto?this.cerrar():this.abrir();
 		});
 		this.content_ascensor.style.top="5px";
 	}
 
 	abrir(){
-		if(this.abierto){
-			return;
-		}
-		console.log(this.content_ascensor.offsetTop);
 		if(!Util.estaRango(this.content_ascensor.offsetTop,this.planta.obj.offsetTop,this.planta.obj.offsetTop+this.planta.obj.offsetHeight) ||
 			!Util.estaRango(this.content_ascensor.offsetTop+this.content_ascensor.offsetHeight,this.planta.obj.offsetTop,this.planta.obj.offsetTop+this.planta.obj.offsetHeight)){
+			console.log("Fuera del rango");
 			return;
 		}
+		clearInterval(this.intervalo.cerrar);
+		this.abierto=true;
 		this.movimiento=true;
 		Util.modal(this.content_centro,false);
+		let ancho1=this.content_puerta1.offsetWidth;
+		let ancho2=this.content_puerta2.offsetWidth;
 		this.intervalo.abrir=setInterval(()=>{
-			let ancho1=this.content_puerta1.offsetWidth;
-			let ancho2=this.content_puerta2.offsetWidth;
-			let ancho_nuevo1=(ancho1-1);
-			let ancho_nuevo2=(ancho2-1);
-			if(ancho_nuevo1<=1 && ancho_nuevo2<=1){
+			ancho1=(ancho1-1);
+			ancho2=(ancho2-1);
+			if(ancho1<=0 && ancho2<=0){
 				clearInterval(this.intervalo.abrir);
-				this.abierto=true;
 				this.movimiento=false;
 				this.content_puerta.setAttribute("title","Cerrar");
+				// Obtener personas de la planta
+				if(this.planta.num==Juego.num_plantas){
+					this.personas.forEach((persona)=>{
+						persona.mover(this,persona);
+					});
+				}else{
+					this.planta.personas.forEach((persona)=>{
+						persona.mover(this);
+					});
+				}
 			}else{
-				this.content_puerta1.style.width=ancho_nuevo1+"px";
-				this.content_puerta2.style.width=ancho_nuevo2+"px";
+				this.content_puerta1.style.width=ancho1+"px";
+				this.content_puerta2.style.width=ancho2+"px";
 			}
 		},10);
 	}
 
 	cerrar(){
-		if(!this.abierto){
-			return;
-		}
+		this.abierto=false;
+		clearInterval(this.intervalo.abrir);
 		this.movimiento=true;
 		Util.modal(this.content_centro,false);
-		this.content_puerta1.style.width="5.5vw";
-		this.content_puerta2.style.width="5.5vw";
-		let ancho_total1=this.content_puerta1.offsetWidth;
-		let ancho_total2=this.content_puerta2.offsetWidth;
-		this.content_puerta1.style.width="0px";
-		this.content_puerta2.style.width="0px";
+		//this.content_puerta1.style.width="5.5vw";
+		//this.content_puerta2.style.width="5.5vw";
+		let ancho1=this.content_puerta1.offsetWidth;
+		let ancho2=this.content_puerta1.offsetWidth;
 		this.intervalo.cerrar=setInterval(()=>{
-			let ancho1=this.content_puerta1.offsetWidth;
-			let ancho2=this.content_puerta2.offsetWidth;
-			let ancho_nuevo1=(ancho1+1);
-			let ancho_nuevo2=(ancho2+1);
-			if(ancho_nuevo1>=ancho_total1 && ancho_nuevo2>=ancho_total2){
+			ancho1=(ancho1+1);
+			ancho2=(ancho2+1);
+			if(ancho1>=this.ancho_puerta1 && ancho2>=this.ancho_puerta2){
 				clearInterval(this.intervalo.cerrar);
 				this.content_puerta1.style.width="5.5vw";
 				this.content_puerta2.style.width="5.5vw";
-				this.abierto=false;
 				this.movimiento=false;
 				this.content_puerta.setAttribute("title","Abrir");
 				Util.modal(this.content_centro,true);
 			}else{
-				this.content_puerta1.style.width=ancho_nuevo1+"px";
-				this.content_puerta2.style.width=ancho_nuevo2+"px";
+				this.content_puerta1.style.width=ancho1+"px";
+				this.content_puerta2.style.width=ancho2+"px";
 			}
 		},10);
+		// Obtener personas de la planta
+		this.planta.personas.forEach((persona)=>{
+			persona.parar(this);
+		});
 	}
 
 	mover(evt,juego){
@@ -118,8 +125,7 @@ class Ascensor{
 	obtenerPlanta(){
 		Juego.plantas.forEach((planta,indice)=>{
 			if(planta.obj.offsetTop<this.content_ascensor.offsetTop){
-
-				this.content_numero.innerHTML=planta.num;
+				this.content_numero.innerHTML=Juego.num_plantas-(planta.num-1);
 				this.planta=planta;
 				return;
 			}

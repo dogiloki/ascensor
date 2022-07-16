@@ -79,3 +79,7 @@
 	border: 1px solid #c2c2c2;
 	background: #354139;
 }
+.planta .persona{
+	position: absolute;
+	bottom: 0px;
+}
