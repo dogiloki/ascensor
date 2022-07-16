@@ -32,7 +32,7 @@ class Planta{
 	}
 
 	quitarPersona(persona){
-		this.obj.removeChild(persona.obj);
+		//this.obj.removeChild(persona.obj);
 		this.personas=this.personas.filter((p)=>{
 			return p.id!=persona.id;
 		});

@@ -24,6 +24,11 @@ class Ascensor{
 		this.content_ascensor.style.top="5px";
 	}
 
+	dimencionarPuertas(){
+		this.ancho_puerta1=this.content_puerta1.offsetWidth;
+		this.ancho_puerta2=this.content_puerta2.offsetWidth;
+	}
+
 	abrir(){
 		if(!Util.estaRango(this.content_ascensor.offsetTop,this.planta.obj.offsetTop,this.planta.obj.offsetTop+this.planta.obj.offsetHeight) ||
 			!Util.estaRango(this.content_ascensor.offsetTop+this.content_ascensor.offsetHeight,this.planta.obj.offsetTop,this.planta.obj.offsetTop+this.planta.obj.offsetHeight)){
@@ -34,6 +39,7 @@ class Ascensor{
 		this.abierto=true;
 		this.movimiento=true;
 		Util.modal(this.content_centro,false);
+		this.dimencionarPuertas();
 		let ancho1=this.content_puerta1.offsetWidth;
 		let ancho2=this.content_puerta2.offsetWidth;
 		this.intervalo.abrir=setInterval(()=>{
@@ -41,6 +47,10 @@ class Ascensor{
 			ancho2=(ancho2-1);
 			if(ancho1<=0 && ancho2<=0){
 				clearInterval(this.intervalo.abrir);
+				// Mostrar personas
+				this.personas.forEach((p)=>{
+					Util.modal(p.obj,true);
+				});
 				this.movimiento=false;
 				this.content_puerta.setAttribute("title","Cerrar");
 				// Obtener personas de la planta
@@ -69,6 +79,10 @@ class Ascensor{
 		//this.content_puerta2.style.width="5.5vw";
 		let ancho1=this.content_puerta1.offsetWidth;
 		let ancho2=this.content_puerta1.offsetWidth;
+		// Ocultar personas
+		this.personas.forEach((p)=>{
+			Util.modal(p.obj,false);
+		});
 		this.intervalo.cerrar=setInterval(()=>{
 			ancho1=(ancho1+1);
 			ancho2=(ancho2+1);

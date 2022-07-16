@@ -9,6 +9,7 @@ juego.iniciar();
 
 window.onresize=()=>{
 	juego.posicionarPlantas();
+	juego.ascensor.dimencionarPuertas();
 }
 
 document.addEventListener("keydown",(evt)=>{
